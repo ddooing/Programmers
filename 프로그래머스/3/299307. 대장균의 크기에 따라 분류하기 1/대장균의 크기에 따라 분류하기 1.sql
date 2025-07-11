@@ -1,0 +1,15 @@
+-- MYSQL CASE 조건문
+-- CASE
+-- WHEN 조건N THEN 조건N 충족할 때 반환되는 값
+-- ELSE 모든 조건 해당되지 않을 때 반환되는 값
+-- END
+
+
+SELECT ID,
+    CASE 
+    WHEN SIZE_OF_COLONY > 1000 THEN "HIGH"
+    WHEN SIZE_OF_COLONY > 100 THEN "MEDIUM"
+    ELSE "LOW"
+    END AS SIZE
+FROM ECOLI_DATA
+ORDER BY ID ASC;
