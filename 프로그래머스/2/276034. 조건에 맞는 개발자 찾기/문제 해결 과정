@@ -1,0 +1,29 @@
+SKILL_CODE 는 2진수로 표현했을 때 각 bit는 SKILLCODES 테이블의 코드
+EX)
+SKILL_CODE = 400 (=b'110010000')
+	이는 SKILLCODES 테이블에서 CODE가 
+256 (=b'100000000'), 128 (=b'10000000'), 16 (=b'10000') 에 해당하는 스킬을 가졌다는 것을 의미
+따라서, 비트로 따졌을 때, 400 에는 & 16 즉, 비트 4 = 10000 비트 4를 가진다는 의미
+=> 400 & 16 = 1
+
+따라서 아래와 같은 코드를 작성함
+
+SELECT ID, EMAIL, FIRST_NAME, LAST_NAME
+FROM DEVELOPERS
+WHERE SKILL_CODE & 256
+   OR SKILL_CODE & 1024
+ORDER BY ID ASC;
+
+하지만 테스트 1은 성공했지만, 다른 테스트는 모두 실패 
+알고보니 숫자를 직접 작성했기에 고정된 값, 하드코딩 문제
+
+아래와 같이 서브쿼리를 사용하여 확장과 유지보수성
+
+SELECT ID, EMAIL, FIRST_NAME, LAST_NAME
+FROM DEVELOPERS
+WHERE SKILL_CODE & (SELECT CODE FROM SKILLCODES WHERE NAME='Python')
+   OR SKILL_CODE & (SELECT CODE FROM SKILLCODES WHERE NAME='C#')
+ORDER BY ID ASC;
+
+
+  
